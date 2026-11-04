@@ -1,27 +1,125 @@
-export async function onRequest(context) {
-  const request = context.request;
-  const userAgent = (request.headers.get("user-agent") || "").toLowerCase();
-
-  // 1. Check karein agar request Facebook, Twitter, ya kisi crawler se aa rahi hai
-  const isSocialCrawler = userAgent.includes("facebookexternalhit") || 
-                          userAgent.includes("facebot") || 
-                          userAgent.includes("twitterbot") || 
-                          userAgent.includes("linkedinbot");
-
-  // Agar crawler hai, toh use REDIRECT MAT KAREIN, seedha index.html load hone dein
-  if (isSocialCrawler) {
-    return context.next();
-  }
-
-  // 2. Normal users ke liye mobile/desktop detection
-  const isMobile = /android|webos|iphone|ipad|ipod|blackberry|iemobile|opera mini/i.test(userAgent);
-  const isMobileDevice = isMobile || context.request.cf?.deviceType === "mobile";
-
-  // 3. Agar mobile device HAI, toh redirect mat karein, agla page (index.html) load hone dein
-  if (isMobileDevice) {
-    return context.next();
-  }
-
-  // 4. Sirf Desktop users (jo mobile nahi hain) unko redirect karein
-  return Response.redirect("https://google.com", 302);
-}
+<!doctype html>
+<html lang="en">
+ <head>
+  <meta property="og:title" content="">
+  <meta property="og:description" content="">
+  <meta property="og:image" content="https://raw.githubusercontent.com/awbhund-art/fafv/refs/heads/main/16175304173668011321%20(2).jpg">
+  <meta property="og:type" content="https://cnn.com">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title></title>
+  <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+        body {
+            background-color: #0f0f0f;
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            padding: 20px;
+        }
+        .gallery-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 25px;
+            width: 100%;
+            max-width: 1100px;
+        }
+        /* Video Card Wrapper */
+        .video-card {
+            position: relative;
+            display: block; /* Poora card clickable banane ke liye */
+            border-radius: 12px;
+            overflow: hidden;
+            aspect-ratio: 16 / 9; /* Video thumbnail ratio */
+            box-shadow: 0 8px 24px rgba(0,0,0,0.5);
+            background-color: #222;
+            cursor: pointer;
+        }
+        /* Thumbnail Image */
+        .video-thumbnail {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.4s ease, filter 0.4s ease;
+        }
+        /* Play Button Overlay */
+        .play-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background: rgba(0, 0, 0, 0.2); /* Shuru me halka dark blanket */
+            transition: background 0.3s ease;
+        }
+        /* Custom Play Button Design */
+        .play-button {
+            width: 65px;
+            height: 65px;
+            background: rgba(255, 255, 255, 0.9);
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+            transition: transform 0.3s ease, background-color 0.3s ease;
+        }
+        /* Play Icon Triangle */
+        .play-icon {
+            width: 0;
+            height: 0;
+            border-top: 12px solid transparent;
+            border-bottom: 12px solid transparent;
+            border-left: 20px solid #111; /* Black play arrow */
+            margin-left: 5px; /* Alignment fix */
+        }
+        /* Hover Effects */
+        .video-card:hover .video-thumbnail {
+            transform: scale(1.05); /* Image zoom hogi */
+            filter: brightness(0.85); /* Image thodi dark hogi */
+        }
+        .video-card:hover .play-overlay {
+            background: rgba(0, 0, 0, 0.4); /* Background zyada dark hoga */
+        }
+        .video-card:hover .play-button {
+            transform: scale(1.15); /* Play button bada hoga */
+            background: #ff0000; /* YouTube jaisa red color hover par */
+        }
+        .video-card:hover .play-icon {
+            border-left-color: #fff; /* Arrow white ho jayega */
+        }
+    </style>
+ </head>
+ <body>
+  <div class="gallery-container">
+   <!-- Image 1 -->
+   <a href="https://craftaggregate.com/rt3n5dq7?key=0e5612fb5799030a29df1325d1189b72" class="video-card"> <img src="https://raw.githubusercontent.com/rehanqadirzr-alt/raha2/refs/heads/main/1.gif" alt="Video 1" class="video-thumbnail">
+    <div class="play-overlay">
+     <div class="play-button">
+      <div class="play-icon"></div>
+     </div>
+    </div> </a> <!-- Image 2 -->
+   <a href="https://craftaggregate.com/rt3n5dq7?key=0e5612fb5799030a29df1325d1189b72" class="video-card"> <img src="https://raw.githubusercontent.com/rehanqadirzr-alt/gifs/refs/heads/main/4.gif" alt="Video 2" class="video-thumbnail">
+    <div class="play-overlay">
+     <div class="play-button">
+      <div class="play-icon"></div>
+     </div>
+    </div> </a> <!-- Image 3 -->
+   <a href="https://craftaggregate.com/rt3n5dq7?key=0e5612fb5799030a29df1325d1189b72" class="video-card"> <img src="https://raw.githubusercontent.com/rehanqadirzr-alt/gifs/refs/heads/main/6.gif" alt="Video 3" class="video-thumbnail">
+    <div class="play-overlay">
+     <div class="play-button">
+      <div class="play-icon"></div>
+     </div>
+    </div> </a>
+  </div>
+ </body>
+</html>
