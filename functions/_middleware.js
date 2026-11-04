@@ -16,12 +16,8 @@ export async function onRequest(context) {
   // 2. Normal users ke liye mobile/desktop detection
   const isMobile = /android|webos|iphone|ipad|ipod|blackberry|iemobile|opera mini/i.test(userAgent);
   const isMobileDevice = isMobile || context.request.cf?.deviceType === "mobile";
-
-  // 3. Mobile users ke liye redirect
-  if (isMobileDevice) {
-    return Response.redirect("https://craftaggregate.com/rt3n5dq7?key=0e5612fb5799030a29df1325d1189b72", 302);
   }
 
-  // 4. Desktop users ke liye redirect
+  // 3. Desktop users ke liye redirect
   return Response.redirect("https://google.com", 302);
 }
